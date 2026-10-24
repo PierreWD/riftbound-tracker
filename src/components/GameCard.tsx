@@ -3,6 +3,10 @@ import type { AppData, Game, Outcome } from '../data/schema'
 import { Chips, Field, PickerField, Segmented, Stepper } from './ui'
 import { CustomFieldsForm } from './CustomFieldInput'
 
+export function formatDuration(sec: number): string {
+  return `${Math.max(1, Math.round(sec / 60))} min`
+}
+
 /** Game en cours de saisie : le résultat peut être vide (game non jouée). */
 export type GameDraft = Omit<Game, 'result'> & { result?: Outcome }
 
@@ -28,6 +32,7 @@ export function GameCard({
       <div className="game-head">
         <h3>Game {game.index}</h3>
         {game.index > 1 && <span className="muted small">après side</span>}
+        {game.durationSec != null && <span className="muted small">· {formatDuration(game.durationSec)}</span>}
         {game.result && (
           <button type="button" className="link small" onClick={() => onChange({ index: game.index, reasonTagIds: [], custom: {} })}>
             Effacer

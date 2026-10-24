@@ -45,6 +45,8 @@ export interface Game {
   oppScore?: number
   myBattlefieldId?: string
   oppBattlefieldId?: string
+  /** durée de la game en secondes (renseignée par le compagnon de partie) */
+  durationSec?: number
   reasonTagIds: string[]
   note?: string
   custom: CustomValues

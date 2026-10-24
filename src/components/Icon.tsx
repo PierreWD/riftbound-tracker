@@ -17,6 +17,12 @@ const PATHS: Record<string, string> = {
   sparkle: 'M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z',
   check: 'M5 12l5 5L20 7',
   search: 'M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM21 21l-5-5',
+  swords: 'M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2M9.5 6.5 18 3h3v3l-3.5 8.5M5 14l4 4M7 17l-3 3M3 19l2 2',
+  coin: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v10M9.5 9.5h3.75a1.75 1.75 0 0 1 0 3.5h-2.5a1.75 1.75 0 0 0 0 3.5H14.5',
+  play: 'M7 4v16l13-8z',
+  pause: 'M7 4h3v16H7zM14 4h3v16h-3z',
+  menu: 'M4 6h16M4 12h16M4 18h16',
+  undo: 'M9 14 4 9l5-5M4 9h11a5 5 0 0 1 0 10h-3',
 }
 
 export function Icon({ name, size = 20 }: { name: keyof typeof PATHS | string; size?: number }) {

@@ -21,6 +21,12 @@ Pour être installable et marcher hors ligne, l'appli doit être servie en HTTPS
 3. Le workflow `.github/workflows/deploy.yml` teste, construit et publie l'appli à chaque push.
 4. Ouvrir l'URL sur le téléphone, puis l'ajouter à l'écran d'accueil (menu du navigateur → « Installer l'application » ou « Ajouter à l'écran d'accueil »).
 
+## Compagnon de partie
+
+Onglet **Partie** : choix de son deck et de la légende adverse, toss aléatoire pour savoir qui commence, compteur de points jusqu'à 8 (mode face à face possible), timer de ronde (30 à 60 min, l'écran reste allumé) et enchaînement des games du Bo3 (par défaut, le perdant commence la suivante). À la fin, « Enregistrer dans mes stats » ouvre le formulaire de match pré-rempli (deck, adversaire, résultats, scores, qui commence, durée de chaque game).
+
+La partie en cours est sauvegardée en continu : on peut verrouiller le téléphone ou fermer l'appli sans la perdre.
+
 ## Sauvegarder ses données
 
 Les données sont stockées dans le navigateur du téléphone (IndexedDB). Si on désinstalle l'appli ou qu'on vide les données du navigateur, elles sont perdues. Il faut donc exporter régulièrement (l'appli le rappelle après 14 jours) :

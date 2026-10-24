@@ -10,6 +10,7 @@ import { DeckEditor } from '../components/DeckEditor'
 import { CustomFieldsForm } from '../components/CustomFieldInput'
 import { Icon } from '../components/Icon'
 import { toast } from '../components/toast'
+import { readPrefill, writePrefill } from '../live/liveMatch'
 
 type Draft = Omit<Match, 'games' | 'result'> & { games: GameDraft[] }
 
@@ -64,15 +65,36 @@ export function MatchForm({ matchId }: { matchId?: string }) {
   const { data, saveMatch, addListItem } = useStore()
   const existing = matchId ? data.matches.find((m) => m.id === matchId) : undefined
 
-  const initial = useMemo<{ draft: Draft; restored: boolean }>(() => {
-    if (existing) return { draft: { ...existing, games: padGames(existing.games) }, restored: false }
+  const initial = useMemo<{ draft: Draft; restored: boolean; prefilled: boolean }>(() => {
+    if (existing) return { draft: { ...existing, games: padGames(existing.games) }, restored: false, prefilled: false }
+    // Match qui sort du compagnon de partie : prioritaire sur un vieux brouillon
+    const prefill = readPrefill()
+    if (prefill) {
+      const fresh = freshDraft(data)
+      return {
+        draft: {
+          ...fresh,
+          myDeckId: prefill.myDeckId || fresh.myDeckId,
+          opponent: { ...prefill.opponent },
+          games: padGames(prefill.games),
+        },
+        restored: false,
+        prefilled: true,
+      }
+    }
     const saved = readDraft()
-    if (saved) return { draft: { ...saved, games: padGames(saved.games) }, restored: true }
-    return { draft: freshDraft(data), restored: false }
+    if (saved) return { draft: { ...saved, games: padGames(saved.games) }, restored: true, prefilled: false }
+    return { draft: freshDraft(data), restored: false, prefilled: false }
   }, [matchId])
+
+  // Le pré-remplissage est consommé une fois copié dans le brouillon (sauvegardé automatiquement ci-dessous)
+  useEffect(() => {
+    if (initial.prefilled) writePrefill(null)
+  }, [initial])
 
   const [draft, setDraft] = useState<Draft>(initial.draft)
   const [restored, setRestored] = useState(initial.restored)
+  const [prefilled, setPrefilled] = useState(initial.prefilled)
   const [deckEditor, setDeckEditor] = useState(false)
   const [errors, setErrors] = useState<string[]>([])
   const [showDeckNote, setShowDeckNote] = useState(!!initial.draft.myDeckNote)
@@ -175,6 +197,15 @@ export function MatchForm({ matchId }: { matchId?: string }) {
         </button>
         <h1>{existing ? 'Modifier le match' : 'Nouveau match'}</h1>
       </header>
+
+      {prefilled && (
+        <div className="banner">
+          Pré-rempli depuis la partie : vérifie, puis ajoute battlefields, tags et commentaires.{' '}
+          <button className="link" onClick={() => setPrefilled(false)}>
+            OK
+          </button>
+        </div>
+      )}
 
       {restored && (
         <div className="banner">

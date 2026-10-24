@@ -5,6 +5,7 @@ import { MatchDetail } from './screens/MatchDetail'
 import { Analysis } from './screens/analysis/Analysis'
 import { MatchupDetail } from './screens/analysis/MatchupDetail'
 import { Settings } from './screens/Settings'
+import { Companion } from './screens/Companion'
 import { Icon } from './components/Icon'
 import { ToastHost } from './components/toast'
 
@@ -21,6 +22,8 @@ function Screen({ parts }: { parts: string[] }) {
       return <MatchupDetail legendId={b} />
     case 'settings':
       return <Settings />
+    case 'play':
+      return <Companion />
     default:
       return <MatchList />
   }
@@ -28,6 +31,7 @@ function Screen({ parts }: { parts: string[] }) {
 
 const TABS = [
   { id: 'matches', label: 'Matchs', icon: 'list', match: ['matches', 'match', undefined] },
+  { id: 'play', label: 'Partie', icon: 'swords', match: ['play'] },
   { id: 'new', label: 'Nouveau', icon: 'plus', match: ['new'] },
   { id: 'analysis', label: 'Analyse', icon: 'chart', match: ['analysis', 'matchup'] },
   { id: 'settings', label: 'Réglages', icon: 'settings', match: ['settings'] },

@@ -8,6 +8,7 @@ import { ResultBadge } from '../components/stats'
 import { formatCustomValue } from '../components/CustomFieldInput'
 import { toast } from '../components/toast'
 import { formatDay } from './MatchList'
+import { formatDuration } from '../components/GameCard'
 import type { CustomValues } from '../data/schema'
 
 export function MatchDetail({ matchId }: { matchId: string }) {
@@ -87,6 +88,7 @@ export function MatchDetail({ matchId }: { matchId: string }) {
             <ResultBadge result={g.result} />
             <span className="muted small">
               {g.iWentFirst == null ? '' : g.iWentFirst ? 'Je commence' : 'Je suis second'}
+              {g.durationSec != null && ` · ${formatDuration(g.durationSec)}`}
             </span>
             {g.myScore != null && g.oppScore != null && (
               <strong className="game-points">
